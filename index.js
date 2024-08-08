@@ -1,5 +1,5 @@
-const inquirer = require("inquirer");
-const fs = require("fs");
+const inquirer = require('inquirer');
+const fs = require('fs');
 const { Circle, Triangle, Square } = require("./lib/shapes");
 
 const questions = [
@@ -31,7 +31,9 @@ const questions = [
   },
 ];
 
-inquirer.prompt(questions).then(answers => {
+async function generateLogo() {
+  try {
+    const answers = await inquirer.prompt(questions);
     const { text, textColor, shape, shapeColor } = answers;
     let shapeElement;
 
@@ -55,5 +57,10 @@ inquirer.prompt(questions).then(answers => {
     `;
 
     fs.writeFileSync('logo.svg', svgContent.trim());
-    console.log('Generated logo.svg file!');
-});
+    console.log('Generated logo.svg');
+  } catch (error) {
+    console.error('Error generating logo:', error);
+  }
+}
+
+generateLogo();
